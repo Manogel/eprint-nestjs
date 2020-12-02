@@ -33,6 +33,12 @@ export default class CreateUsers1606784605301 implements MigrationInterface {
           {
             name: 'avatar',
             type: 'varchar',
+            isNullable: true,
+          },
+          {
+            name: 'is_active',
+            type: 'boolean',
+            default: true,
           },
           {
             name: 'created_at',

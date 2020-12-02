@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import appConfig from '@config/app';
+import { UserModule } from './modules/user/user.module';
+import { ConfigModule } from '@nestjs/config';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      entities: [`${appConfig.isDev ? 'src' : 'dist'}/**/*.entity.ts`],
-      synchronize: false,
-    }),
-    UsersModule,
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRoot(),
+    MulterModule.register(),
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
