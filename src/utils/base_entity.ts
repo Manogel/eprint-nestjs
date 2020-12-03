@@ -18,6 +18,6 @@ export abstract class MyBaseEntity {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @Column()
-  deleted_at: Date;
+  @Column({ nullable: true })
+  deleted_at?: Date;
 }

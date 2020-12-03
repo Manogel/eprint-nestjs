@@ -18,7 +18,7 @@ export class User extends MyBaseEntity {
     required: false,
     enum: ['ADMIN', 'USER'],
   })
-  @Column()
+  @Column({ default: 'USER', enum: ['USER', 'ADMIN'] })
   profile?: string;
 
   @ApiProperty()
@@ -29,6 +29,6 @@ export class User extends MyBaseEntity {
   @ApiProperty({
     required: false,
   })
-  @Column()
+  @Column({ nullable: true })
   avatar?: string;
 }
