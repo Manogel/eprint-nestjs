@@ -2,12 +2,20 @@ import appConfig from '@config/app';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const APP_NAME = process.env.npm_package_name;
   const APP_VERSION = process.env.npm_package_version;
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      ...{ forbidNonWhitelisted: true, whitelist: true },
+    }),
+  );
 
   const swaggerOptions = new DocumentBuilder()
     .setTitle(APP_NAME)

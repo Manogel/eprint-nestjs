@@ -15,4 +15,20 @@ export class UserRepository extends Repository<User> {
 
     return users;
   }
+
+  async findByEmail(email: string) {
+    const user = await this.findOne({
+      where: {
+        email,
+      },
+    });
+
+    return user;
+  }
+
+  async findById(userId: string) {
+    const user = await this.findOne(userId);
+
+    return user;
+  }
 }

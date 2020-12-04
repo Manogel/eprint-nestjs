@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -12,6 +12,14 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
+    const { email } = createUserDto;
+
+    const emailExists = await this.userRepository.findByEmail(email);
+
+    if (emailExists) {
+      throw new BadRequestException('Email em uso');
+    }
+
     const user = await this.userRepository.createUser(createUserDto);
 
     return user;
@@ -23,15 +31,48 @@ export class UserService {
     return users;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  findOne(userId: string) {
+    return this.userRepository.findById(userId);
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(userId: string, updateUserDto: UpdateUserDto) {
+    const { email } = updateUserDto;
+
+    const user = await this.userRepository.findById(userId);
+
+    if (user.deleted_at) {
+      throw new BadRequestException('Este usuário foi deletedo');
+    }
+
+    if (email && user.email !== email) {
+      const emailInUse = await this.userRepository.findByEmail(email);
+
+      if (emailInUse) throw new BadRequestException('Email em uso');
+    }
+
+    Object.assign(user, updateUserDto);
+
+    await this.userRepository.save(user);
+
+    return user;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(userId: string) {
+    const user = await this.userRepository.findById(userId);
+
+    if (!user) {
+      throw new BadRequestException('Usuário não encontrado');
+    }
+
+    if (user.deleted_at) {
+      throw new BadRequestException('Usuário já foi excluído');
+    }
+
+    user.deleted_at = new Date();
+    user.is_active = false;
+
+    await this.userRepository.save(user);
+
+    return user;
   }
 }
