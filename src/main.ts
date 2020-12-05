@@ -1,10 +1,11 @@
-import appConfig from '@config/app';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+import appConfig from '@config/app';
 
 async function bootstrap() {
+  const PORT = appConfig.port || 3000;
   const app = await NestFactory.create(AppModule);
 
   const APP_NAME = process.env.npm_package_name;
@@ -13,7 +14,8 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
-      ...{ forbidNonWhitelisted: true, whitelist: true },
+      forbidNonWhitelisted: true,
+      whitelist: true,
     }),
   );
 
@@ -26,7 +28,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, swaggerOptions);
 
   SwaggerModule.setup('api', app, document);
-
-  await app.listen(appConfig.port || 3000);
+  console.log('PORTA DA API', PORT);
+  await app.listen(PORT);
 }
 bootstrap();
