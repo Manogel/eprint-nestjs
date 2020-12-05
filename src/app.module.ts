@@ -6,6 +6,7 @@ import { UserModule } from './modules/user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { MulterModule } from '@nestjs/platform-express';
 import { DefaultAdminModule } from 'nestjs-admin';
+import { UnitModule } from './modules/unit/unit.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { DefaultAdminModule } from 'nestjs-admin';
     MulterModule.register(),
     DefaultAdminModule,
     UserModule,
+    UnitModule,
   ],
   controllers: [AppController],
   providers: [AppService],

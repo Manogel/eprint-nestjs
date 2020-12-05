@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   PrimaryGeneratedColumn,
   Column,
@@ -9,6 +10,9 @@ export abstract class MyBaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @ApiProperty({
+    required: false,
+  })
   @Column({ type: 'boolean', default: true })
   is_active: boolean;
 
@@ -18,6 +22,10 @@ export abstract class MyBaseEntity {
   @UpdateDateColumn()
   updated_at: Date;
 
+  @ApiProperty({
+    type: 'string',
+    format: 'date-time',
+  })
   @Column({ nullable: true })
   deleted_at?: Date;
 }
