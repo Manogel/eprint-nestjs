@@ -8,6 +8,7 @@ import {
   Delete,
   UseInterceptors,
   UploadedFile,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -16,6 +17,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import uploadConfig from '@config/upload';
 import { ApiConsumes, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
+import BaseQueryParamsDTO from '@utils/query-params.dto';
 
 @ApiTags('users')
 @Controller('users')
@@ -41,8 +43,8 @@ export class UserController {
     isArray: true,
   })
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  findAll(@Query() query: BaseQueryParamsDTO) {
+    return this.userService.findAll(query);
   }
 
   @Get(':id')

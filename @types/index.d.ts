@@ -22,3 +22,34 @@ interface IFile {
   /** `MemoryStorage` only: A Buffer containing the entire file. */
   buffer: Buffer;
 }
+
+interface IReturnPaginated<T> {
+  page: number;
+  pages: number;
+  perPage: number;
+  total: number;
+  data: T[];
+}
+
+interface IPaginateRequired {
+  page: number;
+  perPage: number;
+}
+
+interface IPaginate {
+  page?: number;
+  perPage?: number;
+}
+
+type ISortColumn = 'ASC' | 'DESC';
+
+type ITypeOrmQuery = {
+  where?: {
+    [column: string]: any;
+  };
+  sort?: {
+    [column: string]: number;
+  };
+  page: number;
+  perPage: number;
+};

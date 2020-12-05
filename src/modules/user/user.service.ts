@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import BaseQueryParamsDTO from '@utils/query-params.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserRepository } from './repositories/user.repository';
@@ -25,8 +26,8 @@ export class UserService {
     return user;
   }
 
-  async findAll() {
-    const users = await this.userRepository.findAll();
+  async findAll(query?: BaseQueryParamsDTO) {
+    const users = await this.userRepository.findAll(query);
 
     return users;
   }

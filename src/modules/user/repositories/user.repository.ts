@@ -10,8 +10,12 @@ export class UserRepository extends Repository<User> {
     return this.save(user);
   }
 
-  async findAll() {
-    const users = await this.find();
+  async findAll(query: ITypeOrmQuery) {
+    const { where, sort } = query;
+    const users = await this.find({
+      where,
+      order: sort,
+    });
 
     return users;
   }
