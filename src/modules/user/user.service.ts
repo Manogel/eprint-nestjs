@@ -1,3 +1,4 @@
+import { BcryptService } from '@modules/bcrypt/bcrypt.service';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import BaseQueryParamsDTO from '@utils/query-params.dto';
@@ -10,6 +11,7 @@ export class UserService {
   constructor(
     @InjectRepository(UserRepository)
     private readonly userRepository: UserRepository,
+    private readonly bcryptService: BcryptService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -21,8 +23,10 @@ export class UserService {
       throw new BadRequestException('Email em uso');
     }
 
-    const user = await this.userRepository.createUser(createUserDto);
+    const password = createUserDto.password;
+    createUserDto.password = await this.bcryptService.generateHash(password);
 
+    const user = await this.userRepository.createUser(createUserDto);
     return user;
   }
 
