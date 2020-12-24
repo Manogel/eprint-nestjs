@@ -6,7 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserRepository } from './repositories/user.repository';
 import { DefaultAdminModule, DefaultAdminSite } from 'nestjs-admin';
 import { UserAdmin } from './entities/user.admin';
-import { BcryptModule } from '@modules/bcrypt/bcrypt.module';
+import { BcryptModule } from '@providers/bcrypt/bcrypt.module';
 
 @Module({
   imports: [

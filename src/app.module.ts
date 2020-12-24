@@ -8,7 +8,7 @@ import { MulterModule } from '@nestjs/platform-express';
 import { DefaultAdminModule } from 'nestjs-admin';
 import { UnitModule } from './modules/unit/unit.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { BcryptModule } from './modules/bcrypt/bcrypt.module';
+import { BcryptModule } from './providers/bcrypt/bcrypt.module';
 import { SectionModule } from './modules/section/section.module';
 
 @Module({

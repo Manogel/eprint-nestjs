@@ -103,6 +103,7 @@
     ],
     "moduleNameMapper": {
       "@config/(.*)": "<rootDir>/config/$1",
+      "@providers/(.*)": "<rootDir>/providers/$1",
       "@modules/(.*)": "<rootDir>/modules/$1",
       "@utils/(.*)": "<rootDir>/utils/$1"
     }

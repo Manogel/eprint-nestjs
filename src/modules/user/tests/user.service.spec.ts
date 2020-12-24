@@ -1,6 +1,3 @@
-import { BcryptModule } from '@modules/bcrypt/bcrypt.module';
-import { BcryptService } from '@modules/bcrypt/bcrypt.service';
-import fakeBcryptService from '@modules/bcrypt/fakeBcrypt.service';
 import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
@@ -13,6 +10,7 @@ import {
   mockUserRepository,
 } from '../tests/UserUtil';
 import { UserService } from '../user.service';
+import { BcryptModule } from '@providers/bcrypt/bcrypt.module';
 
 describe('UserService', () => {
   let service: UserService;

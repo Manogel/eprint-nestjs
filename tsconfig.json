@@ -15,6 +15,7 @@
     "paths": {
       "@config/*": ["src/config/*"],
       "@utils/*": ["src/utils/*"],
+      "@providers/*": ["src/providers/*"],
       "@modules/*": ["src/modules/*"]
     }
   },
