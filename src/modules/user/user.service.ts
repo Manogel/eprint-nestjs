@@ -36,14 +36,20 @@ export class UserService {
     return users;
   }
 
-  findOne(userId: string) {
-    return this.userRepository.findById(userId);
+  async findOne(userId: string) {
+    const user = await this.userRepository.findById(userId);
+
+    if (!user) {
+      throw new BadRequestException('Usuário não encontrado');
+    }
+
+    return user;
   }
 
   async update(userId: string, updateUserDto: UpdateUserDto) {
     const { email } = updateUserDto;
 
-    const user = await this.userRepository.findById(userId);
+    const user = await this.findOne(userId);
 
     if (user.deleted_at) {
       throw new BadRequestException('Este usuário foi deletedo');
@@ -63,11 +69,7 @@ export class UserService {
   }
 
   async remove(userId: string) {
-    const user = await this.userRepository.findById(userId);
-
-    if (!user) {
-      throw new BadRequestException('Usuário não encontrado');
-    }
+    const user = await this.findOne(userId);
 
     if (user.deleted_at) {
       throw new BadRequestException('Usuário já foi excluído');

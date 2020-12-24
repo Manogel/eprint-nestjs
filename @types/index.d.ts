@@ -61,4 +61,9 @@ declare global {
     page: number;
     perPage: number;
   };
+
+  enum Role {
+    User = 'user',
+    Admin = 'admin',
+  }
 }
