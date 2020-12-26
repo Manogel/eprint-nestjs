@@ -4,9 +4,13 @@ import { MailService } from './mail.service';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { getAsyncMailConfig } from '@config/mail';
+import { FakeMailService } from './fakeMail.service';
+import appConfig from '@config/app';
 
-@Module({
-  imports: [
+const imports = [];
+
+if (!appConfig.isTest) {
+  imports.push(
     MailerModule.forRootAsync({
       useFactory: () => {
         const config = getAsyncMailConfig();
@@ -41,8 +45,17 @@ import { getAsyncMailConfig } from '@config/mail';
         };
       },
     }),
+  );
+}
+
+@Module({
+  imports,
+  providers: [
+    {
+      provide: MailService,
+      useClass: appConfig.isTest ? FakeMailService : MailService,
+    },
   ],
-  providers: [MailService],
-  controllers: [],
+  exports: [MailService],
 })
 export class MailModule {}
