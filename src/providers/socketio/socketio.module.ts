@@ -5,5 +5,6 @@ import { SocketioGateway } from './socketio.gateway';
 @Module({
   imports: [CacheModule],
   providers: [SocketioGateway],
+  exports: [SocketioGateway],
 })
 export class SocketioModule {}

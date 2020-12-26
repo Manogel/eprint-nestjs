@@ -2,13 +2,14 @@ import redisConfig from '@config/redis';
 import {
   WebSocketGateway,
   WebSocketServer,
-  SubscribeMessage,
   OnGatewayConnection,
   OnGatewayDisconnect,
 } from '@nestjs/websockets';
 import { CacheService } from '@providers/cache/cache.service';
-import { Socket } from 'socket.io';
-import { Server } from 'ws';
+import { Socket, Server } from 'socket.io';
+import { ISocketEvents } from './dtos/socket-events-dto';
+
+const { keys } = redisConfig;
 
 @WebSocketGateway()
 export class SocketioGateway
@@ -34,8 +35,35 @@ export class SocketioGateway
     this.cacheService.invalidade(keycache);
   }
 
-  @SubscribeMessage('chat')
-  async onChat(client: Socket, message: string) {
-    client.broadcast.emit('chat', message);
+  listAllChannels() {
+    return this.cacheService.getKeysByPrefix('socket');
+  }
+
+  emit(event: string, data: any, channel?: string) {
+    if (channel) {
+      this.server.to(channel).emit(event, data);
+    } else {
+      this.server.emit(event, data);
+    }
+  }
+
+  broadcast(event: string, data: any) {
+    this.emit(event, data);
+  }
+
+  findChannel(key: string) {
+    const keycache = keys.userChannel(key);
+
+    return this.cacheService.recover<string>(keycache);
+  }
+
+  async emitToUser(toUser: string, event: ISocketEvents, data: any) {
+    const channel = await this.findChannel(toUser);
+
+    if (channel) {
+      this.emit(event, data, channel);
+      return true;
+    }
+    return false;
   }
 }
