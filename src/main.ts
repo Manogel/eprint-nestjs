@@ -3,12 +3,12 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
-import appConfig from '@config/app';
+import { getAsyncAppConfig } from '@config/app';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
-  const PORT = appConfig.port || 3000;
+  const appConfig = getAsyncAppConfig();
+  const PORT = appConfig.port;
   const APP_NAME = process.env.npm_package_name;
   const APP_VERSION = process.env.npm_package_version;
 
@@ -28,6 +28,8 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, swaggerOptions);
   SwaggerModule.setup('docs', app, document);
-  await app.listen(PORT);
+  await app.listen(PORT, () => {
+    console.log(`🚀 App is running on port ${PORT}`);
+  });
 }
 bootstrap();

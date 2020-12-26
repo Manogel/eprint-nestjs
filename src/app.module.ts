@@ -10,10 +10,13 @@ import { UnitModule } from './modules/unit/unit.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { BcryptModule } from './providers/bcrypt/bcrypt.module';
 import { SectionModule } from './modules/section/section.module';
+import { MailModule } from './providers/mail/mail.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot(),
     MulterModule.register(),
     DefaultAdminModule,
@@ -22,6 +25,7 @@ import { SectionModule } from './modules/section/section.module';
     AuthModule,
     BcryptModule,
     SectionModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
