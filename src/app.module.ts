@@ -11,6 +11,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { BcryptModule } from './providers/bcrypt/bcrypt.module';
 import { SectionModule } from './modules/section/section.module';
 import { MailModule } from './providers/mail/mail.module';
+import { SocketioModule } from './providers/socketio/socketio.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { MailModule } from './providers/mail/mail.module';
     BcryptModule,
     SectionModule,
     MailModule,
+    SocketioModule,
   ],
   controllers: [AppController],
   providers: [AppService],
