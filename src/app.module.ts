@@ -12,6 +12,8 @@ import { BcryptModule } from './providers/bcrypt/bcrypt.module';
 import { SectionModule } from './modules/section/section.module';
 import { MailModule } from './providers/mail/mail.module';
 import { SocketioModule } from './providers/socketio/socketio.module';
+import { CacheService } from './providers/cache/cache.service';
+import { CacheModule } from './providers/cache/cache.module';
 
 @Module({
   imports: [
@@ -28,8 +30,9 @@ import { SocketioModule } from './providers/socketio/socketio.module';
     SectionModule,
     MailModule,
     SocketioModule,
+    CacheModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, CacheService],
 })
 export class AppModule {}

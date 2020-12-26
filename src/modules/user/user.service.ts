@@ -32,7 +32,6 @@ export class UserService {
 
   async findAll(query?: BaseQueryParamsDTO) {
     const users = await this.userRepository.findAll(query);
-
     return users;
   }
 

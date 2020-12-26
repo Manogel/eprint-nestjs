@@ -1,3 +1,4 @@
+import redisConfig from '@config/redis';
 import {
   WebSocketGateway,
   WebSocketServer,
@@ -5,6 +6,7 @@ import {
   OnGatewayConnection,
   OnGatewayDisconnect,
 } from '@nestjs/websockets';
+import { CacheService } from '@providers/cache/cache.service';
 import { Socket } from 'socket.io';
 import { Server } from 'ws';
 
@@ -13,13 +15,23 @@ export class SocketioGateway
   implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server: Server;
 
+  constructor(private readonly cacheService: CacheService) {}
+
   async handleConnection(client: Socket) {
-    console.log('Socket channel', client.id);
-    console.log('Socket params', client.handshake.query);
+    const { id: idChannel } = client;
+    const { user_id } = client.handshake.query;
+    const { userChannel } = redisConfig.keys;
+
+    const keycache = userChannel(user_id);
+    this.cacheService.save(keycache, idChannel);
   }
 
   async handleDisconnect(client: Socket) {
-    console.log('Socket disconnected', client.id);
+    const { user_id } = client.handshake.query;
+    const { userChannel } = redisConfig.keys;
+
+    const keycache = userChannel(user_id);
+    this.cacheService.invalidade(keycache);
   }
 
   @SubscribeMessage('chat')
