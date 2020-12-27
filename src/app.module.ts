@@ -14,6 +14,7 @@ import { MailModule } from './providers/mail/mail.module';
 import { SocketioModule } from './providers/socketio/socketio.module';
 import { CacheService } from './providers/cache/cache.service';
 import { CacheModule } from './providers/cache/cache.module';
+import { QueueModule } from './providers/queue/queue.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { CacheModule } from './providers/cache/cache.module';
     MailModule,
     SocketioModule,
     CacheModule,
+    QueueModule,
   ],
   controllers: [AppController],
   providers: [AppService, CacheService],

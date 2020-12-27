@@ -7,12 +7,14 @@ import { UserRepository } from './repositories/user.repository';
 import { DefaultAdminModule, DefaultAdminSite } from 'nestjs-admin';
 import { UserAdmin } from './entities/user.admin';
 import { BcryptModule } from '@providers/bcrypt/bcrypt.module';
+import { QueueModule } from '@providers/queue/queue.module';
 
 @Module({
   imports: [
     BcryptModule,
     TypeOrmModule.forFeature([User, UserRepository]),
     DefaultAdminModule,
+    QueueModule,
   ],
   controllers: [UserController],
   providers: [UserService],

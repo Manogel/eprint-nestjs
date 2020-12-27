@@ -5,6 +5,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserRepository } from './repositories/user.repository';
 import { BcryptService } from '@providers/bcrypt/bcrypt.service';
+import { QueueService } from '@providers/queue/queue.service';
 
 @Injectable()
 export class UserService {
@@ -12,6 +13,7 @@ export class UserService {
     @InjectRepository(UserRepository)
     private readonly userRepository: UserRepository,
     private readonly bcryptService: BcryptService,
+    private readonly queueService: QueueService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -27,6 +29,15 @@ export class UserService {
     createUserDto.password = await this.bcryptService.generateHash(password);
 
     const user = await this.userRepository.createUser(createUserDto);
+
+    await this.queueService.addSendMail({
+      to: user.email,
+      subject: 'Seja bem vindo',
+      contextData: {
+        name: user.name,
+      },
+    });
+
     return user;
   }
 
