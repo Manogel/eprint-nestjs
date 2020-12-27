@@ -1,4 +1,4 @@
-class fakeBcryptService {
+class fakeHashService {
   generateHash(text: string) {
     return text;
   }
@@ -7,4 +7,4 @@ class fakeBcryptService {
   }
 }
 
-export default fakeBcryptService;
+export default fakeHashService;

@@ -6,8 +6,6 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { getAsyncMailConfig } from '@config/mail';
 import { FakeMailService } from './fakeMail.service';
 import appConfig from '@config/app';
-import { QueueModule } from '@providers/queue/queue.module';
-import { MailProcessor } from './mail.processor';
 
 const imports = [];
 

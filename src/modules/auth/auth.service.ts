@@ -5,14 +5,14 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtPayloadDto } from './dtos/jwtpayload-dto';
 import { SigninDto } from './dtos/signin-dto';
-import { BcryptService } from '@providers/bcrypt/bcrypt.service';
+import { HashService } from '@providers/hash/hash.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(UserRepository)
     private readonly userRepository: UserRepository,
-    private readonly bcryptService: BcryptService,
+    private readonly hashService: HashService,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -21,7 +21,7 @@ export class AuthService {
 
     if (!user) throw new UnauthorizedException('Email ou senha incorretos');
 
-    const passwordIsValid = await this.bcryptService.compareHash(
+    const passwordIsValid = await this.hashService.compareHash(
       password,
       user.password,
     );

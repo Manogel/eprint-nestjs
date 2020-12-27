@@ -10,14 +10,15 @@ import {
   mockUserRepository,
 } from '../tests/UserUtil';
 import { UserService } from '../user.service';
-import { BcryptModule } from '@providers/bcrypt/bcrypt.module';
+import { HashModule } from '@providers/hash/hash.module';
+import { QueueModule } from '@providers/queue/queue.module';
 
 describe('UserService', () => {
   let service: UserService;
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [BcryptModule],
+      imports: [HashModule, QueueModule],
       providers: [
         UserService,
         {

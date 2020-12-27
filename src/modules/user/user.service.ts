@@ -4,7 +4,7 @@ import BaseQueryParamsDTO from '@utils/query-params.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserRepository } from './repositories/user.repository';
-import { BcryptService } from '@providers/bcrypt/bcrypt.service';
+import { HashService } from '@providers/hash/hash.service';
 import { QueueService } from '@providers/queue/queue.service';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class UserService {
   constructor(
     @InjectRepository(UserRepository)
     private readonly userRepository: UserRepository,
-    private readonly bcryptService: BcryptService,
+    private readonly hashService: HashService,
     private readonly queueService: QueueService,
   ) {}
 
@@ -26,7 +26,7 @@ export class UserService {
     }
 
     const password = createUserDto.password;
-    createUserDto.password = await this.bcryptService.generateHash(password);
+    createUserDto.password = await this.hashService.generateHash(password);
 
     const user = await this.userRepository.createUser(createUserDto);
 

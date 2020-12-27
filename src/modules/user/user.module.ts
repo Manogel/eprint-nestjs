@@ -6,12 +6,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserRepository } from './repositories/user.repository';
 import { DefaultAdminModule, DefaultAdminSite } from 'nestjs-admin';
 import { UserAdmin } from './entities/user.admin';
-import { BcryptModule } from '@providers/bcrypt/bcrypt.module';
+import { HashModule } from '@providers/hash/hash.module';
 import { QueueModule } from '@providers/queue/queue.module';
 
 @Module({
   imports: [
-    BcryptModule,
+    HashModule,
     TypeOrmModule.forFeature([User, UserRepository]),
     DefaultAdminModule,
     QueueModule,

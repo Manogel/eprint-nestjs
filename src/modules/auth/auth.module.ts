@@ -6,12 +6,12 @@ import { UserModule } from '@modules/user/user.module';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import authConfig from '@config/auth';
-import { BcryptModule } from '@providers/bcrypt/bcrypt.module';
+import { HashModule } from '@providers/hash/hash.module';
 
 @Module({
   imports: [
     UserModule,
-    BcryptModule,
+    HashModule,
     PassportModule,
     JwtModule.register({
       secret: authConfig.secret,

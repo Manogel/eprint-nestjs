@@ -8,7 +8,7 @@ import { MulterModule } from '@nestjs/platform-express';
 import { DefaultAdminModule } from 'nestjs-admin';
 import { UnitModule } from './modules/unit/unit.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { BcryptModule } from './providers/bcrypt/bcrypt.module';
+import { HashModule } from './providers/hash/hash.module';
 import { SectionModule } from './modules/section/section.module';
 import { MailModule } from './providers/mail/mail.module';
 import { SocketioModule } from './providers/socketio/socketio.module';
@@ -27,7 +27,7 @@ import { QueueModule } from './providers/queue/queue.module';
     UserModule,
     UnitModule,
     AuthModule,
-    BcryptModule,
+    HashModule,
     SectionModule,
     MailModule,
     SocketioModule,
